@@ -30,7 +30,7 @@ Os dados serão obtidos diretamente da fonte oficial. Os arquivos originais não
 
 - Python
 - Docker Compose
-- MinIO
+- SeaweedFS
 - Apache Spark
 - Apache Iceberg
 - Apache Polaris

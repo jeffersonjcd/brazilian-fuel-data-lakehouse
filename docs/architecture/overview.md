@@ -17,7 +17,7 @@ flowchart TD
     ANP["ANP - Dados públicos CSV"]
     ING["Ingestão - Python"]
     AIR["Orquestração - Airflow"]
-    MINIO[("MinIO - Object Storage")]
+    OBJ[("SeaweedFS - Object Storage")]
     SPARK["Apache Spark"]
     ICE["Apache Iceberg"]
     POL["Apache Polaris - Catálogo REST"]
@@ -28,8 +28,8 @@ flowchart TD
     ANP --> ING
     AIR -.-> ING
     AIR -.-> SPARK
-    ING --> MINIO
-    MINIO --> SPARK
+    ING --> OBJ
+    OBJ --> SPARK
     SPARK --> ICE
     SPARK <--> POL
     TRINO <--> POL
@@ -47,7 +47,7 @@ entre os componentes será validada durante a implementação.
 |---|---|
 | Python | Obter os arquivos da fonte e registrar metadados da ingestão |
 | Apache Airflow | Orquestrar tarefas, dependências e novas tentativas |
-| MinIO | Armazenar os arquivos originais e os dados processados |
+| SeaweedFS | Armazenar os arquivos originais e os dados processados |
 | Apache Spark | Processar e transformar os dados |
 | Apache Iceberg | Gerenciar tabelas analíticas sobre arquivos no object storage |
 | Apache Polaris | Disponibilizar o catálogo Iceberg por meio de uma API REST |
@@ -77,11 +77,11 @@ serão gerenciadas pelo Apache Iceberg em cada camada.
 | Origem | Destino | Protocolo ou interface |
 |---|---|---|
 | Python | ANP | HTTPS |
-| Python | MinIO | API compatível com S3 |
-| Spark | MinIO | API compatível com S3 |
+| Python | SeaweedFS | API compatível com S3 |
+| Spark | SeaweedFS | API compatível com S3 |
 | Spark | Polaris | API REST do catálogo Iceberg |
 | Trino | Polaris | API REST do catálogo Iceberg |
-| Trino | MinIO | Acesso aos objetos no armazenamento |
+| Trino | SeaweedFS | Acesso aos objetos via conector Iceberg; integração a validar |
 | dbt | Trino | Conexão SQL via adaptador Trino |
 | Superset | Trino | Conexão SQL via driver compatível |
 
